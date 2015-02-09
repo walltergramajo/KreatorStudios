@@ -14,7 +14,7 @@ private var doubleJump : float;
 public var jumpMaxTime: float = 0.3;
 public var extraJump = 0.4;
 public var displayMessageTime : float;
-
+//Particle Emitter
 
 
 
@@ -36,7 +36,13 @@ private var displayFastTimeLevel : boolean = false;
 //blink 
 private var hit : boolean;
 var invincible : boolean = false;
- 
+ //testing
+public var runner  : boolean;
+//dust
+
+var pe : ParticleSystem;
+
+
 rigidbody.useGravity = false;
 
 function Start(){
@@ -59,8 +65,17 @@ function FixedUpdate () {
 	 if (speed < maxSpeed){
 	 	 speed += maxSpeed*0.01;
 	 }
-	 
+	if(runner){
+		if(isGrounded()){
+		pe.enableEmission = true;
+		}else{
+		pe.enableEmission = false;
+		}
 	rigidbody.velocity = new Vector3(speed, rigidbody.velocity.y);
+	}else{
+	rigidbody.velocity.x = speed * Input.GetAxis("Horizontal");
+	}
+	
 	  
 	  
 	// rigidbody.isKinematic = false;

@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{9739C938-70CF-2E47-35DD-068CAA21C806}</ProjectGuid>
+	<ProjectGuid>{87B49D03-D3C9-EBC8-9671-C45A9EA605B8}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CheckPoint.js" />
      <Compile Include="Assets\Scripts\GUI.js" />
      <Compile Include="Assets\Scripts\Inventory.js" />
      <Compile Include="Assets\Scripts\Invincibility.js" />
@@ -61,12 +62,12 @@
      <Compile Include="Assets\Scripts\enemy.js" />
      <Compile Include="Assets\Scripts\playerController.js" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>E:/Users/Max/Desktop/FS_controller/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>E:/Users/Max/Desktop/KreatorStudios/GameBuild_Max_Michael_Walter_Feb2/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{1E25A361-769E-25F1-4510-2F5638113AEA}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{06FA0E1F-39B1-A7C4-D1B2-0A61C9669C98}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
