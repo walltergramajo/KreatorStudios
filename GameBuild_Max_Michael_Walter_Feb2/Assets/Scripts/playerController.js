@@ -40,13 +40,25 @@ var invincible : boolean = false;
 public var runner  : boolean;
 //dust
 
-var pe : ParticleSystem;
 
+
+
+var pe : ParticleSystem;
+//animations
+private var idle : AnimationState;
+private var run : AnimationState;
+private var jump : AnimationState;
 
 rigidbody.useGravity = false;
 
 function Start(){
 	bestTime = PlayerPrefs.GetInt("bestTime", bestTime);
+	animation["Run"].speed = 0.1;
+	animation["Run"].layer = 0;
+	animation["Jump"].layer = 1;
+	jump = animation["Jump"];
+	//run = animation["Run"];
+	
 }
 
 
@@ -62,19 +74,7 @@ function FixedUpdate () {
 	
 	
 	 
-	 if (speed < maxSpeed){
-	 	 speed += maxSpeed*0.01;
-	 }
-	if(runner){
-		if(isGrounded()){
-		pe.enableEmission = true;
-		}else{
-		pe.enableEmission = false;
-		}
-	rigidbody.velocity = new Vector3(speed, rigidbody.velocity.y);
-	}else{
-	rigidbody.velocity.x = speed * Input.GetAxis("Horizontal");
-	}
+
 	
 	  
 	  
@@ -132,11 +132,32 @@ function OnCollisionStay(hit:Collision){
 
 
 function Update (){
+
+
+	 if (speed < maxSpeed){
+	 	 speed += maxSpeed*0.01;
+	 	 if(animation["Run"].speed < 1)
+	 	 animation["Run"].speed += 1 * 0.01;
+	 }
+	if(runner){
+		if(isGrounded()){
+		pe.enableEmission = true;
+		animation.Play("Run");	
+		}else{
+		animation.Stop("Run");	
+		pe.enableEmission = false;
+		}
+	rigidbody.velocity = new Vector3(speed, rigidbody.velocity.y);
+	}else{
+	rigidbody.velocity.x = speed * Input.GetAxis("Horizontal");
+	}
 	//If Character is on the ground reset the Jump Time
 	if(Input.GetButtonDown("Jump") && isGrounded()){
 		jumpTime = 0;
 		rigidbody.velocity.y = jumpHeight;	
 		doubleJump = 1;
+		animation.Stop("Run");
+		animation.CrossFade("Jump");
 	}
 // Debug.Log(jumpTime);
 //If character jumps and holds down the key, jump higher. 
@@ -211,7 +232,7 @@ function isGrounded(){
 	
 	//debug ray cast
 	
-		var jumpLine : float = collider.bounds.size.y/2 + 0.1;
+		var jumpLine : float = collider.bounds.size.y/2 -1;
 	Debug.DrawRay(middle, Vector3(0, -jumpLine, 0), Color.red);
 	Debug.DrawRay(front, Vector3(0, -jumpLine, 0), Color.red);
 	Debug.DrawRay(back, Vector3(0, -jumpLine, 0), Color.red);
