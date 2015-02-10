@@ -15,11 +15,10 @@ public var jumpMaxTime: float = 0.3;
 public var extraJump = 0.4;
 public var displayMessageTime : float;
 //Particle Emitter
-<<<<<<< HEAD
+
 
 // Point System
-=======
->>>>>>> refs/heads/pr/1
+
 
 public var maxTimerPoints : int = 1500;
 public var maxTimeAllowedInSeconds : int = 120;
@@ -42,17 +41,9 @@ private var displayFastTimeLevel : boolean = false;
 
 //blink 
 private var hit : boolean;
-<<<<<<< HEAD
+
 var invincible : boolean = false;
  //testing
-public var runner  : boolean;
-//dust
-
-
-
-
-var pe : ParticleSystem;
-=======
 
 public var hitBlink : boolean = false;
 
@@ -63,7 +54,7 @@ public var runner  : boolean;
 var pe : ParticleSystem;
 
 
->>>>>>> refs/heads/pr/1
+
 //animations
 private var idle : AnimationState;
 private var run : AnimationState;
@@ -78,20 +69,16 @@ function Start(){
 	
 	
 	bestTime = PlayerPrefs.GetInt("bestTime", bestTime);
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> refs/heads/pr/1
 	animation["Run"].speed = 0.1;
 	animation["Run"].layer = 0;
 	animation["Jump"].layer = 1;
 	jump = animation["Jump"];
-<<<<<<< HEAD
+
 	//run = animation["Run"];
-=======
+
 	run = animation["Run"];
->>>>>>> refs/heads/pr/1
+
 	
 }
 
@@ -100,36 +87,8 @@ function FixedUpdate () {
 	transform.position.z = 0; //keep player from moving on the z axis
 	rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
 	
-<<<<<<< HEAD
-	//handle horizontal movement
-	
-	
-	  
-	// rigidbody.isKinematic = false;
-	// rigidbody.MovePosition = speed * Input.GetAxis("Horizontal");
-	
-	//turning
-	
-	// if(rigidbody.velocity.x < 0){
-	// 	targetRotation = 180;
-	// }else if (rigidbody.velocity.x > 0){
-	// 	targetRotation = 0;
-	// }
-	
-	//transform.eulerAngles.y=targetRotation;
-	
-	//transform.eulerAngles.y-=(transform.eulerAngles.y-targetRotation)/5;
-	
-	//jump
-	
 
-	
-	
-=======
->>>>>>> refs/heads/pr/1
 }
-
-
 // blink 
 
  function doBlink() 
@@ -166,14 +125,13 @@ function OnCollisionStay(hit:Collision){
 function Update (){
 
 
-<<<<<<< HEAD
+
 	 if (speed < maxSpeed){
 	 	 speed += maxSpeed*0.01;
 	 	 if(animation["Run"].speed < 1)
 	 	 animation["Run"].speed += 1 * 0.01;
 	 }
-=======
-// runner code
+
 	if (speed < maxSpeed)
 	{
 	 	 speed += maxSpeed*0.01;
@@ -184,8 +142,7 @@ function Update (){
 		{
 		  animation["Run"].speed += 1 * 0.01;
 		 }
-	
->>>>>>> refs/heads/pr/1
+
 	if(runner){
 		if(isGrounded()){
 		pe.enableEmission = true;
@@ -198,21 +155,16 @@ function Update (){
 	}else{
 	rigidbody.velocity.x = speed * Input.GetAxis("Horizontal");
 	}
-<<<<<<< HEAD
-=======
-	
+
 	
 	//Jumping code
->>>>>>> refs/heads/pr/1
+
 	//If Character is on the ground reset the Jump Time
 	if(Input.GetButtonDown("Jump") && isGrounded()){
 		jumpTime = 0;
 		rigidbody.velocity.y = jumpHeight;	
 		doubleJump = 1;
-<<<<<<< HEAD
-=======
-		
->>>>>>> refs/heads/pr/1
+
 		animation.Stop("Run");
 		animation.CrossFade("Jump");
 	}
