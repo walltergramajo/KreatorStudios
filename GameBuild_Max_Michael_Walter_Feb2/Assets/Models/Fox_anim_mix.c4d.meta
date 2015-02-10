@@ -1,0 +1,135 @@
+fileFormatVersion: 2
+guid: b88aab30727e7434d947f25d8647ff03
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Bip001
+    100002: Bip001_Footsteps
+    100004: Bip001_Head
+    100006: Bip001_L_Calf
+    100008: Bip001_L_Clavicle
+    100010: Bip001_L_Finger0
+    100012: Bip001_L_Foot
+    100014: Bip001_L_Forearm
+    100016: Bip001_L_Hand
+    100018: Bip001_L_Thigh
+    100020: Bip001_L_Toe0
+    100022: Bip001_L_UpperArm
+    100024: Bip001_Neck
+    100026: Bip001_Pelvis
+    100028: Bip001_R_Calf
+    100030: Bip001_R_Clavicle
+    100032: Bip001_R_Finger0
+    100034: Bip001_R_Foot
+    100036: Bip001_R_Forearm
+    100038: Bip001_R_Hand
+    100040: Bip001_R_Thigh
+    100042: Bip001_R_Toe0
+    100044: Bip001_R_UpperArm
+    100046: Bip001_Spine
+    100048: Bip001_Spine1
+    100050: Bip001_Xtra01
+    100052: Bip001_Xtra0102
+    100054: Bip001_Xtra0103
+    100056: Bip001_Xtra0104
+    100058: Bip001_Xtra0105
+    100060: Bip001_Xtra0106
+    100062: Dummy001
+    100064: Dummy002
+    100066: FOX
+    100068: //RootNode
+    100070: Skin
+    400000: Bip001
+    400002: Bip001_Footsteps
+    400004: Bip001_Head
+    400006: Bip001_L_Calf
+    400008: Bip001_L_Clavicle
+    400010: Bip001_L_Finger0
+    400012: Bip001_L_Foot
+    400014: Bip001_L_Forearm
+    400016: Bip001_L_Hand
+    400018: Bip001_L_Thigh
+    400020: Bip001_L_Toe0
+    400022: Bip001_L_UpperArm
+    400024: Bip001_Neck
+    400026: Bip001_Pelvis
+    400028: Bip001_R_Calf
+    400030: Bip001_R_Clavicle
+    400032: Bip001_R_Finger0
+    400034: Bip001_R_Foot
+    400036: Bip001_R_Forearm
+    400038: Bip001_R_Hand
+    400040: Bip001_R_Thigh
+    400042: Bip001_R_Toe0
+    400044: Bip001_R_UpperArm
+    400046: Bip001_Spine
+    400048: Bip001_Spine1
+    400050: Bip001_Xtra01
+    400052: Bip001_Xtra0102
+    400054: Bip001_Xtra0103
+    400056: Bip001_Xtra0104
+    400058: Bip001_Xtra0105
+    400060: Bip001_Xtra0106
+    400062: Dummy001
+    400064: Dummy002
+    400066: FOX
+    400068: //RootNode
+    400070: Skin
+    4300000: FOX
+    7400000: C4D Animation Take
+    9500000: //RootNode
+    13700000: FOX
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

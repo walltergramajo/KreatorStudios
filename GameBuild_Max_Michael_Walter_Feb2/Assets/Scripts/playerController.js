@@ -14,7 +14,7 @@ private var doubleJump : float;
 public var jumpMaxTime: float = 0.3;
 public var extraJump = 0.4;
 public var displayMessageTime : float;
-
+//Particle Emitter
 
 
 
@@ -36,11 +36,30 @@ private var displayFastTimeLevel : boolean = false;
 //blink 
 private var hit : boolean;
 var invincible : boolean = false;
- 
+ //testing
+public var runner  : boolean;
+//dust
+
+
+
+
+var pe : ParticleSystem;
+//animations
+private var idle : AnimationState;
+private var run : AnimationState;
+private var jump : AnimationState;
+
 rigidbody.useGravity = false;
 
 function Start(){
 	bestTime = PlayerPrefs.GetInt("bestTime", bestTime);
+
+	animation["Run"].speed = 0.1;
+	animation["Run"].layer = 0;
+	animation["Jump"].layer = 1;
+	jump = animation["Jump"];
+	//run = animation["Run"];
+	
 }
 
 
@@ -51,17 +70,6 @@ function FixedUpdate () {
 	//handle horizontal movement
 	
 	
-	
-	
-	
-	
-	 
-	 if (speed < maxSpeed){
-	 	 speed += maxSpeed*0.01;
-	 }
-	 
-	rigidbody.velocity = new Vector3(speed, rigidbody.velocity.y);
-	  
 	  
 	// rigidbody.isKinematic = false;
 	// rigidbody.MovePosition = speed * Input.GetAxis("Horizontal");
@@ -117,11 +125,32 @@ function OnCollisionStay(hit:Collision){
 
 
 function Update (){
+
+
+	 if (speed < maxSpeed){
+	 	 speed += maxSpeed*0.01;
+	 	 if(animation["Run"].speed < 1)
+	 	 animation["Run"].speed += 1 * 0.01;
+	 }
+	if(runner){
+		if(isGrounded()){
+		pe.enableEmission = true;
+		animation.Play("Run");	
+		}else{
+		animation.Stop("Run");	
+		pe.enableEmission = false;
+		}
+	rigidbody.velocity = new Vector3(speed, rigidbody.velocity.y);
+	}else{
+	rigidbody.velocity.x = speed * Input.GetAxis("Horizontal");
+	}
 	//If Character is on the ground reset the Jump Time
 	if(Input.GetButtonDown("Jump") && isGrounded()){
 		jumpTime = 0;
 		rigidbody.velocity.y = jumpHeight;	
 		doubleJump = 1;
+		animation.Stop("Run");
+		animation.CrossFade("Jump");
 	}
 // Debug.Log(jumpTime);
 //If character jumps and holds down the key, jump higher. 
@@ -141,7 +170,7 @@ function Update (){
 	}
 
 	timer += Time.deltaTime;
-	
+	Debug.Log(bestTime);
 	
 }
 
@@ -161,18 +190,38 @@ function Update (){
         if(other.gameObject.tag == "endLevel"){
 			Debug.Log("End level");
 			completeTime = timer;
-			Debug.Log("slow");
-			// displayFastTimeLevel = true;
-			// yield WaitForSeconds (displayMessageTime);
-			// displayFastTimeLevel = false;
 
-				if(completeTime < bestTime){
+				if(bestTime == 0){
 					bestTime = completeTime;
-					bestTime = timer;
-
-					Debug.Log("Working");
+					Debug.Log("Time added now because no time was added before");
 					PlayerPrefs.SetInt("bestTime",bestTime);	
+					displayFastTimeLevel = true;
+					yield WaitForSeconds (displayMessageTime);
+					displayFastTimeLevel = false;
+				}else{
+
+					Debug.Log("Time Was added before");
+						// Debug.Log(bestTime);
+					if(completeTime >= bestTime){
+						Debug.Log("Too Slow");
+						// displayFastTimeLevel = true;
+						// yield WaitForSeconds (displayMessageTime);
+						// displayFastTimeLevel = false;
+					}
+
+					if(completeTime <= bestTime){
+						bestTime = completeTime;
+						Debug.Log(bestTime);
+						Debug.Log("New Record!");
+						PlayerPrefs.SetInt("bestTime",bestTime);	
+						displayFastTimeLevel = true;
+						yield WaitForSeconds (displayMessageTime);
+						displayFastTimeLevel = false;
+					}
+
 				}
+
+				
 		}
 		
 	
@@ -196,7 +245,7 @@ function isGrounded(){
 	
 	//debug ray cast
 	
-		var jumpLine : float = collider.bounds.size.y/2 + 0.1;
+		var jumpLine : float = collider.bounds.size.y/2 -1;
 	Debug.DrawRay(middle, Vector3(0, -jumpLine, 0), Color.red);
 	Debug.DrawRay(front, Vector3(0, -jumpLine, 0), Color.red);
 	Debug.DrawRay(back, Vector3(0, -jumpLine, 0), Color.red);
@@ -223,10 +272,10 @@ function OnGUI() {
     GUI.Label(new Rect(10,10,250,100), niceTime);
 
 
-    GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
+    // GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
 
- //    if (displayFastTimeLevel){
-	// 	GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
-	// }
+    if (displayFastTimeLevel){
+		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
+	}
 
  }
