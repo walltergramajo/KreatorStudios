@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
@@ -30,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-															GlobalSection(MonoDevelopProperties) = preSolution
+																	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
@@ -86,40 +85,6 @@ Global
 		$3.inheritsSet = Mono
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
-	EndGlobalSection
-
-EndGlobal
-=======
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{3F32229A-226F-B6E2-3CE2-A6827CA1445B}") = "GameBuild_Max_Michael_Walter_Feb2", "Assembly-CSharp-firstpass.csproj", "{06FA0E1F-39B1-A7C4-D1B2-0A61C9669C98}"
-EndProject
-Project("{3F32229A-226F-B6E2-3CE2-A6827CA1445B}") = "GameBuild_Max_Michael_Walter_Feb2", "Assembly-UnityScript-firstpass.unityproj", "{FB95D15C-E7BD-6C93-1C3C-2F5C1E336B11}"
-EndProject
-Project("{3F32229A-226F-B6E2-3CE2-A6827CA1445B}") = "GameBuild_Max_Michael_Walter_Feb2", "Assembly-UnityScript.unityproj", "{87B49D03-D3C9-EBC8-9671-C45A9EA605B8}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{06FA0E1F-39B1-A7C4-D1B2-0A61C9669C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06FA0E1F-39B1-A7C4-D1B2-0A61C9669C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06FA0E1F-39B1-A7C4-D1B2-0A61C9669C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06FA0E1F-39B1-A7C4-D1B2-0A61C9669C98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB95D15C-E7BD-6C93-1C3C-2F5C1E336B11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB95D15C-E7BD-6C93-1C3C-2F5C1E336B11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB95D15C-E7BD-6C93-1C3C-2F5C1E336B11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB95D15C-E7BD-6C93-1C3C-2F5C1E336B11}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87B49D03-D3C9-EBC8-9671-C45A9EA605B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87B49D03-D3C9-EBC8-9671-C45A9EA605B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87B49D03-D3C9-EBC8-9671-C45A9EA605B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87B49D03-D3C9-EBC8-9671-C45A9EA605B8}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 													GlobalSection(MonoDevelopProperties) = preSolution
 =======
@@ -219,4 +184,3 @@ Global
 	EndGlobalSection
 
 EndGlobal
->>>>>>> origin/master
