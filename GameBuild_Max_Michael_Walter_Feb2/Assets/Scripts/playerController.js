@@ -16,6 +16,10 @@ public var extraJump = 0.4;
 public var displayMessageTime : float;
 //Particle Emitter
 
+// Point System
+
+public var maxTimerPoints : int = 1500;
+public var maxTimeAllowedInSeconds : int = 120;
 
 
 
@@ -170,7 +174,9 @@ function Update (){
 	}
 
 	timer += Time.deltaTime;
-	Debug.Log(bestTime);
+	// Debug.Log(bestTime);
+
+	
 	
 }
 
@@ -215,11 +221,21 @@ function Update (){
 						Debug.Log("New Record!");
 						PlayerPrefs.SetInt("bestTime",bestTime);	
 						displayFastTimeLevel = true;
-						yield WaitForSeconds (displayMessageTime);
-						displayFastTimeLevel = false;
+						// yield WaitForSeconds (displayMessageTime);
+						// displayFastTimeLevel = false;
 					}
 
 				}
+
+				// Point System
+				// Debug.Log("POINTSSS!");
+
+				Debug.Log("Final Time:" + completeTime);
+				Debug.Log("Max Points" + maxTimerPoints);
+				var bulkPoints = completeTime * maxTimerPoints / maxTimeAllowedInSeconds;
+				Debug.Log("Points" + bulkPoints);
+				var totalTimePoints = maxTimerPoints - bulkPoints;
+				Debug.Log("Total Time Points:" + totalTimePoints);
 
 				
 		}

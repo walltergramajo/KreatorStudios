@@ -62,7 +62,11 @@
      <Compile Include="Assets\Scripts\enemy.js" />
      <Compile Include="Assets\Scripts\playerController.js" />
  <Reference Include="Assembly-UnityScript-firstpass">
+<<<<<<< Updated upstream
  <HintPath>C:/Users/Walter/Desktop/GameController/KreatorStudios/GameBuild_Max_Michael_Walter_Feb2/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+=======
+ <HintPath>/Users/Tania/Documents/GitRepos/KreatorStudios/GameBuild_Max_Michael_Walter_Feb2/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+>>>>>>> Stashed changes
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
