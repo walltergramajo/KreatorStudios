@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BouncePlayer.js" />
      <Compile Include="Assets\Scripts\CheckPoint.js" />
      <Compile Include="Assets\Scripts\GUI.js" />
      <Compile Include="Assets\Scripts\Inventory.js" />
