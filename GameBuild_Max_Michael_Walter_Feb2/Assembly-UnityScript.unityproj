@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\camera_follow.js" />
      <Compile Include="Assets\Scripts\character_main.js" />
      <Compile Include="Assets\Scripts\enemy.js" />
+     <Compile Include="Assets\Scripts\enemyPopUp.js" />
      <Compile Include="Assets\Scripts\playerController.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>

@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\camera_follow.js" />
      <Compile Include="Assets\Scripts\character_main.js" />
      <Compile Include="Assets\Scripts\enemy.js" />
+     <Compile Include="Assets\Scripts\enemyPopUp.js" />
      <Compile Include="Assets\Scripts\playerController.js" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>C:/Users/Walter/Desktop/GameController/KreatorStudios/GameBuild_Max_Michael_Walter_Feb2/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
