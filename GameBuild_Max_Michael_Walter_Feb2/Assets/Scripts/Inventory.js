@@ -12,6 +12,8 @@ var controller : playerController;
 // Timer for the speed powerup
 private var myTimer : float = 0;
 
+@HideInInspector
+var invincibility : boolean = false;
 
 
 
@@ -42,6 +44,18 @@ function OnTriggerEnter(other : Collider){
 		}
 	}
 	
+	  if (invincibility){
+		  if(other.gameObject.tag == "enemy"){
+		 
+		 	 Destroy(other.gameObject);
+		 	 Debug.Log('hit when invincible');
+		  }
+ 		 	
+ 		 		 	
+ 		 		
+ 		 	
+ 		 
+ 	   }
 	
 }
 
@@ -95,10 +109,15 @@ function sprint(speed:Vector2){
 	
 function invulnerability (speed:Vector2){
 	
-	transform.renderer.material.color = Color.red;
+	//transform.renderer.material.color = Color.red;
+	invincibility = true;
+	controller.hitBlink = true;
+	Debug.Log(invincibility);
 	yield WaitForSeconds(speed.x);
 	Debug.Log('dang im normal');
-	transform.renderer.material.color = Color.white;
+	invincibility = false;
+	controller.hitBlink = false;
+	//transform.renderer.material.color = Color.white;
 
 }
 	

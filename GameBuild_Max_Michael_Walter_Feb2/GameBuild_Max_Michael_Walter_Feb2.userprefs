@@ -1,8 +1,15 @@
 ﻿<Properties>
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\playerController.js">
     <Files>
       <File FileName="Assets\Scripts\playerController.js" Line="82" Column="9" />
+=======
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\playerController.js">
+    <Files>
+      <File FileName="Assets\Scripts\playerController.js" Line="57" Column="29" />
+>>>>>>> refs/heads/pr/1
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
