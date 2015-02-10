@@ -44,8 +44,11 @@ function OnTriggerEnter (other : Collider){
 				addRigidBody.useGravity = true;
 				addRigidBody.angularDrag  = 2;
 
+<<<<<<< HEAD
 				
 
+=======
+>>>>>>> origin/master
 			//	NotificationCenter.DefaultCenter().PostNotification(this, "EnemyKilled");
 
 			}
