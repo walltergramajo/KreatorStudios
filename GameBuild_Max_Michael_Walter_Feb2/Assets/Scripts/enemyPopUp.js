@@ -43,7 +43,7 @@ function OnTriggerEnter (other : Collider){
 				addRigidBody.mass  = 8;
 				addRigidBody.useGravity = true;
 				addRigidBody.angularDrag  = 2;
-				NotificationCenter.DefaultCenter().PostNotification(this, "EnemyKilled");
+			//	NotificationCenter.DefaultCenter().PostNotification(this, "EnemyKilled");
 			}
 		}
 	}
