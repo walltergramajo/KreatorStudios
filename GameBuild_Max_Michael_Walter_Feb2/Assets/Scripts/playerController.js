@@ -49,7 +49,7 @@ private var hit : boolean;
 
 var invincible : boolean = false;
  //testing
-<<<<<<< HEAD
+
 public var runner  : boolean;
 //dust
 
@@ -57,18 +57,11 @@ public var runner  : boolean;
 
 
 var pe : ParticleSystem;
-=======
->>>>>>> origin/master
+
 
 public var hitBlink : boolean = false;
 
 
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 //animations
 private var idle : AnimationState;
 private var run : AnimationState;
@@ -93,10 +86,6 @@ function Start(){
 
 	run = animation["Run"];
 
-<<<<<<< HEAD
-=======
-	
->>>>>>> origin/master
 }
 
 
@@ -104,7 +93,7 @@ function FixedUpdate () {
 	transform.position.z = 0; //keep player from moving on the z axis
 	rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
 	
-<<<<<<< HEAD
+
 
 	//handle horizontal movement
 	
@@ -131,9 +120,6 @@ function FixedUpdate () {
 	
 	
 
-=======
-
->>>>>>> origin/master
 }
 // blink 
 
@@ -178,10 +164,9 @@ function Update (){
 	 	 animation["Run"].speed += 1 * 0.01;
 	 }
 
-<<<<<<< HEAD
+
 // runner code
-=======
->>>>>>> origin/master
+
 	if (speed < maxSpeed)
 	{
 	 	 speed += maxSpeed*0.01;
@@ -192,10 +177,7 @@ function Update (){
 		{
 		  animation["Run"].speed += 1 * 0.01;
 		 }
-<<<<<<< HEAD
-	
-=======
->>>>>>> origin/master
+
 
 	if(runner){
 		if(isGrounded()){
