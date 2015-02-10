@@ -14,9 +14,12 @@ private var doubleJump : float;
 public var jumpMaxTime: float = 0.3;
 public var extraJump = 0.4;
 public var displayMessageTime : float;
+private var velocity : Vector3;
 //Particle Emitter
 
+
 // Point System
+
 
 public var maxTimerPoints : int = 1500;
 public var maxTimeAllowedInSeconds : int = 120;
@@ -43,8 +46,10 @@ private var displayFastTimeLevel : boolean = false;
 
 //blink 
 private var hit : boolean;
+
 var invincible : boolean = false;
  //testing
+<<<<<<< HEAD
 public var runner  : boolean;
 //dust
 
@@ -52,6 +57,18 @@ public var runner  : boolean;
 
 
 var pe : ParticleSystem;
+=======
+>>>>>>> origin/master
+
+public var hitBlink : boolean = false;
+
+
+
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 //animations
 private var idle : AnimationState;
 private var run : AnimationState;
@@ -59,15 +76,27 @@ private var jump : AnimationState;
 
 rigidbody.useGravity = false;
 
+// invincibility 
+
+
 function Start(){
+	
+	
 	bestTime = PlayerPrefs.GetInt("bestTime", bestTime);
 
 	animation["Run"].speed = 0.1;
 	animation["Run"].layer = 0;
 	animation["Jump"].layer = 1;
 	jump = animation["Jump"];
+
 	//run = animation["Run"];
+
+	run = animation["Run"];
+
+<<<<<<< HEAD
+=======
 	
+>>>>>>> origin/master
 }
 
 
@@ -75,6 +104,8 @@ function FixedUpdate () {
 	transform.position.z = 0; //keep player from moving on the z axis
 	rigidbody.AddForce(new Vector3(0, -gravity * rigidbody.mass, 0));
 	
+<<<<<<< HEAD
+
 	//handle horizontal movement
 	
 	
@@ -99,17 +130,22 @@ function FixedUpdate () {
 
 	
 	
+
+=======
+
+>>>>>>> origin/master
 }
-
-
 // blink 
 
  function doBlink() 
- { 
- var startBlinking : float = Time.time; while ((Time.time - startBlinking) < 2) { //Blink for 2 Seconds 
- transform.renderer.enabled = false; yield WaitForSeconds(0.1); //Player invisible for some Time 
-transform.renderer.enabled = true; yield WaitForSeconds(0.3); //Player visible for a longer amount of Time 
-}}
+	 { 
+		 var startBlinking : float = Time.time;
+		  while ((Time.time - startBlinking) < 2)
+		  { //Blink for 2 Seconds 
+			GetComponentInChildren(SkinnedMeshRenderer).enabled = false; yield WaitForSeconds(0.1); //Player invisible for some Time 
+			GetComponentInChildren(SkinnedMeshRenderer).enabled = true; yield WaitForSeconds(0.3); //Player visible for a longer amount of Time 
+		  }
+	}
  
 //Make Character stationary on platform
 function OnCollisionStay(hit:Collision){
@@ -135,11 +171,32 @@ function OnCollisionStay(hit:Collision){
 function Update (){
 
 
+
 	 if (speed < maxSpeed){
 	 	 speed += maxSpeed*0.01;
 	 	 if(animation["Run"].speed < 1)
 	 	 animation["Run"].speed += 1 * 0.01;
 	 }
+
+<<<<<<< HEAD
+// runner code
+=======
+>>>>>>> origin/master
+	if (speed < maxSpeed)
+	{
+	 	 speed += maxSpeed*0.01;
+		
+	}
+	
+	if(animation["Run"].speed < 1)
+		{
+		  animation["Run"].speed += 1 * 0.01;
+		 }
+<<<<<<< HEAD
+	
+=======
+>>>>>>> origin/master
+
 	if(runner){
 		if(isGrounded()){
 		pe.enableEmission = true;
@@ -152,11 +209,16 @@ function Update (){
 	}else{
 	rigidbody.velocity.x = speed * Input.GetAxis("Horizontal");
 	}
+
+	
+	//Jumping code
+
 	//If Character is on the ground reset the Jump Time
 	if(Input.GetButtonDown("Jump") && isGrounded()){
 		jumpTime = 0;
 		rigidbody.velocity.y = jumpHeight;	
 		doubleJump = 1;
+
 		animation.Stop("Run");
 		animation.CrossFade("Jump");
 	}
@@ -174,7 +236,9 @@ function Update (){
 	//Double jump
 	if(Input.GetButtonDown("Jump") && doubleJump == 1 && !isGrounded()){
 		rigidbody.velocity.y = jumpHeight;
+		animation.CrossFade("Jump");
 		doubleJump = 0;
+		
 	}
 
 	timer += Time.deltaTime;
@@ -185,15 +249,18 @@ function Update (){
 }
 
  function OnTriggerEnter (other : Collider){
-         if (!invincible){
+ 
+ 		
+         if (!hitBlink){
              if(other.gameObject.tag == "enemy"){
                  hit = true;
                  
-                 invincible = true; // makes this whole function unusable since invincible is no longer false
+                 hitBlink = true; // makes this whole function unusable since invincible is no longer false
                  doBlink();
                  speed = resetSpeed;
+                 animation["Run"].speed = 0.1;
                  yield WaitForSeconds (3); 
-                 invincible = false; // makes this whole function reusable since invincible is false again
+                 hitBlink = false; // makes this whole function reusable since invincible is false again
              }
          }
 
@@ -254,8 +321,15 @@ function Update (){
 
 		
 		
-	
-
+		
+		if (other.gameObject.tag == 'jumpPad' ){
+		   // Apply the current movement to launch velocity
+		   //velocity = rigidbody.velocity;
+		   rigidbody.velocity.y = 35;
+		   speed = speed * 3;
+		   Debug.Log("BOUNCE Jump");
+		   
+		  }
 
      }
 

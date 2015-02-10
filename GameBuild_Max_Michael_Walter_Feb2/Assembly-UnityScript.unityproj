@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BouncePlayer.js" />
      <Compile Include="Assets\Scripts\CheckPoint.js" />
      <Compile Include="Assets\Scripts\GUI.js" />
      <Compile Include="Assets\Scripts\Inventory.js" />
@@ -61,6 +62,7 @@
      <Compile Include="Assets\Scripts\camera_follow.js" />
      <Compile Include="Assets\Scripts\character_main.js" />
      <Compile Include="Assets\Scripts\enemy.js" />
+     <Compile Include="Assets\Scripts\enemyPopUp.js" />
      <Compile Include="Assets\Scripts\playerController.js" />
   </ItemGroup>
   <ItemGroup>
