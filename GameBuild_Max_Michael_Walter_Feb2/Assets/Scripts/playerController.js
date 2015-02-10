@@ -20,7 +20,11 @@ public var displayMessageTime : float;
 
 public var maxTimerPoints : int = 1500;
 public var maxTimeAllowedInSeconds : int = 120;
+var finalPoints;
 
+// Score System
+var score = 0; 
+var scoreText = "Score: 0"; 
 
 
 
@@ -193,6 +197,12 @@ function Update (){
              }
          }
 
+         if (other.tag == "Berry_good") { 
+			score += 25; 
+			scoreText = "Score: " + score; 
+			Destroy(other.gameObject); 
+		} 
+
         if(other.gameObject.tag == "endLevel"){
 			Debug.Log("End level");
 			completeTime = timer;
@@ -235,10 +245,14 @@ function Update (){
 				var bulkPoints = completeTime * maxTimerPoints / maxTimeAllowedInSeconds;
 				Debug.Log("Points" + bulkPoints);
 				var totalTimePoints = maxTimerPoints - bulkPoints;
+				var finalPoints = totalTimePoints + score;
 				Debug.Log("Total Time Points:" + totalTimePoints);
+				Debug.Log("Total Time + Berries Points:" + finalPoints);
 
 				
 		}
+
+		
 		
 	
 
@@ -286,12 +300,15 @@ function OnGUI() {
     var niceTime: String = String.Format("{0:0}:{1:00}", minutes, seconds);
  
     GUI.Label(new Rect(10,10,250,100), niceTime);
+    GUI.Label(new Rect(10,30,250,100), scoreText.ToString());
+    
 
 
     // GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
 
     if (displayFastTimeLevel){
 		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
+
 	}
 
  }
