@@ -18,11 +18,11 @@ function OnTriggerEnter (other : Collider){
 
 function Update () {
 
-	if (entered) {
+	if (entered && owl != null) {
 		//Rotation
 		var q : Quaternion;
 		// Move owl on curve
-	    owl.position = Spline.MoveOnPath(pathPoints, owl.position, t, q, 13f, 100, EasingType.Quadratic, true, true);
+	    owl.position = Spline.MoveOnPath(pathPoints, owl.position, t, q, 25f, 100, EasingType.Quadratic, true, true);
 	    // t = position of animation 0 - 1 .  Time.deltaTime the time in seconds to complete last frame. 
 	    t += Time.deltaTime/3;
 	    owl.rotation = q;
