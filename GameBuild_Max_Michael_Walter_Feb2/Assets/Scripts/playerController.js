@@ -57,15 +57,11 @@ public var runner  : boolean;
 
 
 var pe : ParticleSystem;
-<<<<<<< HEAD
 
-
-public var hitBlink : boolean = false;
-=======
->>>>>>> origin/master
 
 
 public var hitBlink : boolean = false;
+
 
 
 //animations
@@ -92,10 +88,6 @@ function Start(){
 
 	run = animation["Run"];
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 }
 
 
@@ -130,10 +122,6 @@ function FixedUpdate () {
 	
 	
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 }
 // blink 
 

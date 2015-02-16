@@ -7,7 +7,6 @@ public var enemyhealth = 3;
  var MaxDist = 10;
  var MinDist = 5;
  
- 
 
 
  
@@ -44,11 +43,6 @@ function OnTriggerEnter (other : Collider){
 				addRigidBody.useGravity = true;
 				addRigidBody.angularDrag  = 2;
 
-<<<<<<< HEAD
-				
-
-=======
->>>>>>> origin/master
 			//	NotificationCenter.DefaultCenter().PostNotification(this, "EnemyKilled");
 
 			}
