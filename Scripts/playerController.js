@@ -15,6 +15,7 @@ public var jumpMaxTime: float = 0.3;
 public var extraJump = 0.4;
 public var displayMessageTime : float;
 private var velocity : Vector3;
+private var enableTimer = true;
 //Particle Emitter
 
 
@@ -41,6 +42,11 @@ var bestTime : int = 0;
 var completeTime : int = 0;
 public var FastTimeLevel : String = "Best Time : " ;
 private var displayFastTimeLevel : boolean = false;
+public var playWaitTime : float = 5; 
+public var launchMessage : String = "Go!";
+var roundedPlayWaitTime; 
+private var displayRoundedPlayWaitTime : boolean = false;
+var displayPlayWaitTime = true;
 
 
 
@@ -217,7 +223,7 @@ function Update (){
 
 	//Double jump
 	if(Input.GetButtonDown("Jump") && doubleJump == 1 && !isGrounded()){
-		rigidbody.velocity.y = jumpHeight;
+		rigidbody.velocity.y = jumpHeight + 5;
 		animation.CrossFade("Jump");
 		doubleJump = 0;
 		
@@ -225,6 +231,27 @@ function Update (){
 
 	timer += Time.deltaTime;
 	// Debug.Log(bestTime);
+
+
+	// playWaitTime -= Time.time; roundedPlayWaitTime = Mathf.CeilToInt(playWaitTime);
+
+	// if(roundedPlayWaitTime == 0){
+	// 	Debug.Log("Time0");
+	// 	playWaitTime = 0;
+	// 	return;
+	// }
+	
+
+	// if(enableTimer){
+	// 	playWaitTime -= Time.time; roundedPlayWaitTime = Mathf.CeilToInt(playWaitTime);
+	// }
+
+
+	// if(roundedPlayWaitTime == 0){
+	// 	playWaitTime = 0;
+	// 	enableTimer = false;
+	// 	displayRoundedPlayWaitTime = false;
+	// }
 
 	
 	
@@ -313,6 +340,12 @@ function Update (){
 		   
 		  }
 
+		if (speed > maxSpeed){
+
+		 	 speed -= maxSpeed*0.40;
+		 	 
+		}
+
      }
 
 
@@ -349,22 +382,24 @@ function isGrounded(){
 }
 
 
-function OnGUI() {
-    var minutes: int = Mathf.FloorToInt(timer / 60);
-    var seconds: int = Mathf.FloorToInt(timer - minutes * 60);
- 
-    var niceTime: String = String.Format("{0:0}:{1:00}", minutes, seconds);
- 
-    GUI.Label(new Rect(10,10,250,100), niceTime);
-    GUI.Label(new Rect(10,30,250,100), scoreText.ToString());
-    
 
-
-    // GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
-
-    if (displayFastTimeLevel){
-		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
-
+function OnGUI() { 
+	var minutes: int = Mathf.FloorToInt(timer / 60); 
+	var seconds: int = Mathf.FloorToInt(timer - minutes * 60); 
+	var niceTime: String = String.Format("{0:0}:{1:00}", minutes, seconds); 
+	var countdown: String = String.Format("{0:0}", roundedPlayWaitTime); 
+	GUI.Label(new Rect(10,10,250,100), niceTime); GUI.Label(new Rect(10,30,250,100), scoreText.ToString()); 
+	
+	if (displayFastTimeLevel){ 
+		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel + bestTime.ToString() + " Seconds"); 
 	}
-
- }
+	if(displayPlayWaitTime == true){
+	 	GUI.Label(new Rect(Screen.width/2-10,Screen.height/2-130,130,100), countdown); Time.timeScale = 1; 
+	}if(roundedPlayWaitTime == 0){ 
+		displayPlayWaitTime = false; 
+		if(displayRoundedPlayWaitTime){
+			GUI.Label(new Rect(Screen.width/2-9,Screen.height/2-130,130,100), launchMessage);
+		}
+		Time.timeScale = 1; 
+	} 
+}

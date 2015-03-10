@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Swoop.js">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\Desktop\GameBuild_Max_Michael_Walter_Feb20\Assets\Scripts\playerController.js">
     <Files>
-      <File FileName="Assets\Scripts\playerController.js" Line="243" Column="28" />
-      <File FileName="Assets\Scripts\enemyPopUp.js" Line="20" Column="28" />
-      <File FileName="Assets\Scripts\PlayerRespawn.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Swoop.js" Line="32" Column="1" />
+      <File FileName="..\..\..\..\Desktop\GameBuild_Max_Michael_Walter_Feb20\Assets\Scripts\playerController.js" Line="194" Column="1" />
+      <File FileName="..\..\..\..\Desktop\GameBuild_Max_Michael_Walter_Feb20\Assets\Scripts\CharacterSpawn.js" Line="10" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

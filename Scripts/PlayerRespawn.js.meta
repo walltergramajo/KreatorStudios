@@ -2,7 +2,13 @@ fileFormatVersion: 2
 guid: 05f1c5e073990404da7827d04d17275f
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Player: {instanceID: 0}
+  - spawnPoint: {instanceID: 0}
+  - P: {instanceID: 0}
+  - FoxPrefab: {fileID: 189298, guid: 53c9e211f84144c959ed3a02a130438b, type: 2}
+  - ChipmunkPrefab: {fileID: 189298, guid: d3020b6fd0c0548ec8dba454f6725d9c, type: 2}
+  - Rabbitprefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
