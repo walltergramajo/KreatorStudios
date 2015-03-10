@@ -40,6 +40,9 @@ function OnTriggerEnter(other : Collider){
 		// if items are Instant and do not need to be put into the inventory for use
 		if(items[i].tagName == other.tag && items[i].Instant == true){
 			SendMessage(""+items[i].PowerUp,Vector2(items[i].Variable,i));
+			if(items[i].AudioPlay){	
+			AudioSource.PlayClipAtPoint(items[i].AudioPlay, transform.position);
+			}
 			Destroy(other.gameObject);
 		}
 	}
@@ -92,13 +95,14 @@ function sprint(speed:Vector2){
 	
 	controller.speed = controller.speed*2;
 	controller.maxSpeed = maxSpeed*2;
+	controller.run.speed = controller.run.speed*1.5;
 	// Yield workaround 
 	//myTimer = speed.x;
 	
 	Debug.Log(controller.speed);
  	// Anything after this call will not work until seconds are finished. 
  	yield WaitForSeconds(speed.x);
- 	
+ 	controller.run.speed = controller.run.speed/1.5;
 	controller.speed = maxSpeed;
 	controller.maxSpeed = maxSpeed;
 	

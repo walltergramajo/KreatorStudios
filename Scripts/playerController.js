@@ -11,13 +11,19 @@ public var gravity : float;
 private var targetRotation : int;
 private var jumpTime : float;
 private var doubleJump : float;
-public var jumpMaxTime: float = 0.3;
-public var extraJump = 0.4;
+private public var jumpMaxTime: float = 0.5;
+private public var extraJump = 0.8;
 public var displayMessageTime : float;
 private var velocity : Vector3;
 private var enableTimer = true;
 //Particle Emitter
 
+//sound
+
+
+public var hitSound :AudioClip;
+public var berrySound :AudioClip;
+public var jumpSound :AudioClip;
 
 // Point System
 
@@ -70,9 +76,9 @@ public var hitBlink : boolean = false;
 
 
 //animations
-private var idle : AnimationState;
-private var run : AnimationState;
-private var jump : AnimationState;
+var idle : AnimationState;
+var run : AnimationState;
+var jump : AnimationState;
 
 rigidbody.useGravity = false;
 
@@ -166,8 +172,8 @@ function Update (){
 
 	 if (speed < maxSpeed){
 	 	 speed += maxSpeed*0.01;
-	 	 if(animation["Run"].speed < 1)
-	 	 animation["Run"].speed += 1 * 0.01;
+	 	 if(run.speed < 1)
+	 	 run.speed += 1 * 0.001;
 	 }
 
 
@@ -181,8 +187,8 @@ function Update (){
 	
 	if(animation["Run"].speed < 1)
 		{
-		  animation["Run"].speed += 1 * 0.01;
-		 }
+		  run.speed += 1 * 0.01;
+		}
 
 
 	if(runner){
@@ -203,6 +209,7 @@ function Update (){
 
 	//If Character is on the ground reset the Jump Time
 	if(Input.GetButtonDown("Jump") && isGrounded()){
+		playSound(jumpSound);
 		jumpTime = 0;
 		rigidbody.velocity.y = jumpHeight;	
 		doubleJump = 1;
@@ -223,6 +230,7 @@ function Update (){
 
 	//Double jump
 	if(Input.GetButtonDown("Jump") && doubleJump == 1 && !isGrounded()){
+		playSound(jumpSound);
 		rigidbody.velocity.y = jumpHeight + 5;
 		animation.CrossFade("Jump");
 		doubleJump = 0;
@@ -256,7 +264,11 @@ function Update (){
 	
 	
 }
-
+function playSound(sound :AudioClip){
+	if(sound){
+	AudioSource.PlayClipAtPoint(sound, transform.position);
+	}
+};
  function OnTriggerEnter (other : Collider){
  
  		
@@ -264,10 +276,11 @@ function Update (){
              if(other.gameObject.tag == "enemy"){
                  hit = true;
                  
-                 hitBlink = true; // makes this whole function unusable since invincible is no longer false
+                 hitBlink = true; // makes this whole function unusable since invincible is no longer false              
+	             playSound(hitSound);
                  doBlink();
                  speed = resetSpeed;
-                 animation["Run"].speed = 0.1;
+                 run.speed = 0.1;
                  yield WaitForSeconds (3); 
                  hitBlink = false; // makes this whole function reusable since invincible is false again
              }
@@ -276,6 +289,7 @@ function Update (){
          if (other.tag == "Berry_good") { 
 			score += 25; 
 			scoreText = "Score: " + score; 
+			playSound(berrySound);
 			Destroy(other.gameObject); 
 		} 
 
