@@ -1,18 +1,26 @@
 ﻿#pragma strict
 import System.Collections.Generic;
 
-//speed toggles
-public var maxSpeed : float;
-public var resetSpeed : float;
-public var speed : float;
+//speed toggle
+@HideInInspector
+@System.NonSerialized
+public var maxSpeed : float = 17;
+@HideInInspector
+@System.NonSerialized
+public var resetSpeed : float = 2;
+@HideInInspector
+@System.NonSerialized
+public var speed : float = 0;
 // jump toggles
-public var jumpHeight : float;
-public var gravity : float;
+private var jumpHeight : float = 23;
+private var gravity : float = 70;
 private var targetRotation : int;
 private var jumpTime : float;
 private var doubleJump : float;
 private var jumpMaxTime: float = 0.5;
 private var extraJump = 0.8;
+
+
 public var displayMessageTime : float;
 private var velocity : Vector3;
 private var enableTimer = true;
@@ -37,6 +45,16 @@ var score = 0;
 var scoreText = "Score: 0"; 
 
 
+// Pause Menu
+private var pauseMenuTexture : Texture2D;
+public var resumeButton : Texture2D;
+public var restartButton : Texture2D;
+public var mainMenuButton : Texture2D;
+private var displayPauseMenu : boolean = false;
+private var menuChoice : String = "";
+private var windowPosition : Vector2 = Vector2(0,0);
+private var windowSize : Vector2 = Vector2(Screen.width, Screen.height);
+private var windowRect : Rect = new Rect(windowPosition.x, windowPosition.y, windowSize.x, windowSize.y);
 
 //Timer
 
@@ -94,10 +112,13 @@ function Start(){
 	animation["Run"].layer = 0;
 	animation["Jump"].layer = 1;
 	jump = animation["Jump"];
-
-	//run = animation["Run"];
-
 	run = animation["Run"];
+	
+	
+	pauseMenuTexture = Resources.Load("Textures/pauseMenu", Texture2D);
+	resumeButton = Resources.Load("Textures/resumeButton", Texture2D);
+	restartButton = Resources.Load("Textures/restartButton", Texture2D);
+	mainMenuButton = Resources.Load("Textures/mainMenuButton", Texture2D);
 
 }
 
@@ -165,9 +186,43 @@ function OnCollisionStay(hit:Collision){
 	}
 }
 
+	function pause(){
+		if(Input.GetButtonDown("Pause")){
+			Debug.Log("pause Area");
+			if (displayPauseMenu == false) {
+				displayPauseMenu = true;
+			}else if (displayPauseMenu == true) {
+				displayPauseMenu = false;
+				Debug.Log("unpause");
+			}
+		}
+
+	}
+	
+	function pauseFunctions(menu:String){
+	switch(menu) {
+		case "resumeGame":	
+			displayPauseMenu = false;
+			break;
+			
+		case "restartGame":
+			// Application.LoadLevel("mainmenu");
+			Debug.Log("LoadThisLevel");
+			
+			break;
+
+		case "mainMenu":
+			Application.LoadLevel("Menu");
+			break;
+		default:
+			//do nothing, return
+			Debug.Log("nothing clicked");
+			break;
+	}
+}
 
 function Update (){
-
+	pause();
 
 
 	 if (speed < maxSpeed){
@@ -397,6 +452,7 @@ function isGrounded(){
 
 
 
+
 function OnGUI() { 
 	var minutes: int = Mathf.FloorToInt(timer / 60); 
 	var seconds: int = Mathf.FloorToInt(timer - minutes * 60); 
@@ -414,6 +470,33 @@ function OnGUI() {
 		if(displayRoundedPlayWaitTime){
 			GUI.Label(new Rect(Screen.width/2-9,Screen.height/2-130,130,100), launchMessage);
 		}
-		Time.timeScale = 1; 
+	// 	Time.timeScale = 1; 
 	} 
+
+	if(displayPauseMenu){
+		GUI.backgroundColor = Color.clear;
+		Time.timeScale = 0;
+		GUI.DrawTexture(windowRect, pauseMenuTexture, ScaleMode.ScaleToFit);
+		// GUI.DrawTexture(windowRect, resumeButton, ScaleMode.ScaleToFit);
+		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/3,200,100),resumeButton)){
+			menuChoice = "resumeGame";
+			Debug.Log(menuChoice);
+			pauseFunctions(menuChoice);
+		}
+		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/2,200,100),restartButton)){
+			menuChoice = "restartGame";
+			Debug.Log(menuChoice);
+			pauseFunctions(menuChoice);
+		}
+		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/1.5,200,100),mainMenuButton)){
+			menuChoice = "mainMenu";
+			Debug.Log(menuChoice);
+			pauseFunctions(menuChoice);
+		}
+		// GUI.DrawTexture(windowRect, restartButton, ScaleMode.ScaleToFit);
+		// GUI.DrawTexture(windowRect, mainMenuButton, ScaleMode.ScaleToFit);
+
+	}else{
+		Time.timeScale = 1;
+	}
 }

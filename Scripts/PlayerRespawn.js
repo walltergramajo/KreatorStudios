@@ -43,7 +43,6 @@ function Awake () {
 
 
 function OnTriggerEnter(other: Collider){
-	Destroy(other.gameObject);
 	if(savedCharacter == 0){
 		P =  Instantiate(FoxPrefab, spawnPoint.position, Quaternion.identity);
 		P.transform.Rotate(0,90,0);
@@ -52,19 +51,24 @@ function OnTriggerEnter(other: Collider){
 		P =  Instantiate(FoxPrefab, spawnPoint.position, Quaternion.identity);
 		P.transform.Rotate(0,90,0);
 		P.name = 'Fox';
+		
 	}
 	if(savedCharacter == 2){
 		P =  Instantiate(ChipmunkPrefab, spawnPoint.position, Quaternion.identity);
 		P.transform.Rotate(0,90,0);
+		P.name = 'Chipmunk';
+		
 	}
 	if(savedCharacter == 3){
 		P =  Instantiate(Rabbitprefab, spawnPoint.position, Quaternion.identity);
 		P.transform.Rotate(0,90,0);
 		P.name = 'Rabbit';
 
-		var playerController : playerController = P.GetComponent(playerController);
-		playerController.enabled = true;
+		// var playerController : playerController = P.GetComponent(playerController);
+		// playerController.enabled = true;
+		
 	}
+	Destroy(other.gameObject);
 // var sf = Camera.main.GetComponent(camera_follow);
 
 // sf.target = P.gameObject;

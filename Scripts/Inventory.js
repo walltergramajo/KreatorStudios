@@ -91,7 +91,7 @@ for(var x = 0; x < 1 + MainInventory.Count; x++){
 
 
 function sprint(speed:Vector2){
-	var maxSpeed : float = controller.maxSpeed;
+	var maxSpeed : float = transform.GetComponent(playerController).maxSpeed;
 	
 	controller.speed = controller.speed*2;
 	controller.maxSpeed = maxSpeed*2;
