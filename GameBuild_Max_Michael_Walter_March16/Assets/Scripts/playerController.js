@@ -49,7 +49,7 @@ private var pauseMenuTexture : Texture2D;
 public var resumeButton : Texture2D;
 public var restartButton : Texture2D;
 public var mainMenuButton : Texture2D;
-private var displayPauseMenu : boolean = false;
+public var displayPauseMenu : boolean = false;
 private var menuChoice : String = "";
 private var windowPosition : Vector2 = Vector2(0,0);
 private var windowSize : Vector2 = Vector2(Screen.width, Screen.height);
@@ -81,9 +81,6 @@ var invincible : boolean = false;
 
 public var runner  : boolean;
 //dust
-
-
-var Ce : Transform;
 
 var pe : ParticleSystem;
 
@@ -209,7 +206,7 @@ function OnCollisionStay(hit:Collision){
 		case "restartGame":
 			// Application.LoadLevel("mainmenu");
 			Debug.Log("LoadThisLevel");
-			
+			Application.LoadLevel(Application.loadedLevel);
 			break;
 
 		case "mainMenu":
@@ -351,11 +348,6 @@ function playSound(sound :AudioClip){
                  hitBlink = false; // makes this whole function reusable since invincible is false again
              }
          }
-
-        if (other.gameObject.tag == "enemy"){
-        	Instantiate (Ce, transform.position, transform.rotation);
-		print("There's a collision");
-		}
 
          if (other.tag == "Berry_good") { 
 			score += 25; 
