@@ -25,7 +25,7 @@ function Update () {
 	    owl.position = Spline.MoveOnPath(pathPoints, owl.position, t, q, 25f, 100, EasingType.Quadratic, true, true);
 	    // t = position of animation 0 - 1 .  Time.deltaTime the time in seconds to complete last frame. 
 	    t += Time.deltaTime/3;
-	    owl.rotation = q;
+	    owl.rotation.z = q.z;
    }
       
 }

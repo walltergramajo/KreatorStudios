@@ -1,22 +1,37 @@
 ﻿#pragma strict
 import System.Collections.Generic;
 
-//speed toggles
-public var maxSpeed : float;
-public var resetSpeed : float;
-public var speed : float;
+//speed toggle
+@HideInInspector
+@System.NonSerialized
+public var maxSpeed : float = 17;
+@HideInInspector
+@System.NonSerialized
+public var resetSpeed : float = 2;
+@HideInInspector
+@System.NonSerialized
+public var speed : float = 0;
 // jump toggles
-public var jumpHeight : float;
-public var gravity : float;
+private var jumpHeight : float = 23;
+private var gravity : float = 70;
 private var targetRotation : int;
 private var jumpTime : float;
 private var doubleJump : float;
-public var jumpMaxTime: float = 0.3;
-public var extraJump = 0.4;
+private var jumpMaxTime: float = 0.5;
+private var extraJump = 0.8;
+
+
 public var displayMessageTime : float;
 private var velocity : Vector3;
+private var enableTimer = true;
 //Particle Emitter
 
+//sound
+
+
+public var hitSound :AudioClip;
+public var berrySound :AudioClip;
+public var jumpSound :AudioClip;
 
 // Point System
 
@@ -30,6 +45,16 @@ var score = 0;
 var scoreText = "Score: 0"; 
 
 
+// Pause Menu
+private var pauseMenuTexture : Texture2D;
+public var resumeButton : Texture2D;
+public var restartButton : Texture2D;
+public var mainMenuButton : Texture2D;
+private var displayPauseMenu : boolean = false;
+private var menuChoice : String = "";
+private var windowPosition : Vector2 = Vector2(0,0);
+private var windowSize : Vector2 = Vector2(Screen.width, Screen.height);
+private var windowRect : Rect = new Rect(windowPosition.x, windowPosition.y, windowSize.x, windowSize.y);
 
 //Timer
 
@@ -41,6 +66,11 @@ var bestTime : int = 0;
 var completeTime : int = 0;
 public var FastTimeLevel : String = "Best Time : " ;
 private var displayFastTimeLevel : boolean = false;
+public var playWaitTime : float = 5; 
+public var launchMessage : String = "Go!";
+var roundedPlayWaitTime; 
+private var displayRoundedPlayWaitTime : boolean = false;
+var displayPlayWaitTime = true;
 
 
 
@@ -64,9 +94,9 @@ public var hitBlink : boolean = false;
 
 
 //animations
-private var idle : AnimationState;
-private var run : AnimationState;
-private var jump : AnimationState;
+var idle : AnimationState;
+var run : AnimationState;
+var jump : AnimationState;
 
 rigidbody.useGravity = false;
 
@@ -82,10 +112,13 @@ function Start(){
 	animation["Run"].layer = 0;
 	animation["Jump"].layer = 1;
 	jump = animation["Jump"];
-
-	//run = animation["Run"];
-
 	run = animation["Run"];
+	
+	
+	pauseMenuTexture = Resources.Load("Textures/pauseMenu", Texture2D);
+	resumeButton = Resources.Load("Textures/resumeButton", Texture2D);
+	restartButton = Resources.Load("Textures/restartButton", Texture2D);
+	mainMenuButton = Resources.Load("Textures/mainMenuButton", Texture2D);
 
 }
 
@@ -153,15 +186,49 @@ function OnCollisionStay(hit:Collision){
 	}
 }
 
+	function pause(){
+		if(Input.GetButtonDown("Pause")){
+			Debug.Log("pause Area");
+			if (displayPauseMenu == false) {
+				displayPauseMenu = true;
+			}else if (displayPauseMenu == true) {
+				displayPauseMenu = false;
+				Debug.Log("unpause");
+			}
+		}
+
+	}
+	
+	function pauseFunctions(menu:String){
+	switch(menu) {
+		case "resumeGame":	
+			displayPauseMenu = false;
+			break;
+			
+		case "restartGame":
+			// Application.LoadLevel("mainmenu");
+			Debug.Log("LoadThisLevel");
+			
+			break;
+
+		case "mainMenu":
+			Application.LoadLevel("Menu");
+			break;
+		default:
+			//do nothing, return
+			Debug.Log("nothing clicked");
+			break;
+	}
+}
 
 function Update (){
-
+	pause();
 
 
 	 if (speed < maxSpeed){
 	 	 speed += maxSpeed*0.01;
-	 	 if(animation["Run"].speed < 1)
-	 	 animation["Run"].speed += 1 * 0.01;
+	 	 if(run.speed < 1)
+	 	 run.speed += 1 * 0.001;
 	 }
 
 
@@ -175,8 +242,8 @@ function Update (){
 	
 	if(animation["Run"].speed < 1)
 		{
-		  animation["Run"].speed += 1 * 0.01;
-		 }
+		  run.speed += 1 * 0.01;
+		}
 
 
 	if(runner){
@@ -197,6 +264,7 @@ function Update (){
 
 	//If Character is on the ground reset the Jump Time
 	if(Input.GetButtonDown("Jump") && isGrounded()){
+		playSound(jumpSound);
 		jumpTime = 0;
 		rigidbody.velocity.y = jumpHeight;	
 		doubleJump = 1;
@@ -217,7 +285,8 @@ function Update (){
 
 	//Double jump
 	if(Input.GetButtonDown("Jump") && doubleJump == 1 && !isGrounded()){
-		rigidbody.velocity.y = jumpHeight;
+		playSound(jumpSound);
+		rigidbody.velocity.y = jumpHeight + 5;
 		animation.CrossFade("Jump");
 		doubleJump = 0;
 		
@@ -226,10 +295,35 @@ function Update (){
 	timer += Time.deltaTime;
 	// Debug.Log(bestTime);
 
+
+	// playWaitTime -= Time.time; roundedPlayWaitTime = Mathf.CeilToInt(playWaitTime);
+
+	// if(roundedPlayWaitTime == 0){
+	// 	Debug.Log("Time0");
+	// 	playWaitTime = 0;
+	// 	return;
+	// }
+	
+
+	// if(enableTimer){
+	// 	playWaitTime -= Time.time; roundedPlayWaitTime = Mathf.CeilToInt(playWaitTime);
+	// }
+
+
+	// if(roundedPlayWaitTime == 0){
+	// 	playWaitTime = 0;
+	// 	enableTimer = false;
+	// 	displayRoundedPlayWaitTime = false;
+	// }
+
 	
 	
 }
-
+function playSound(sound :AudioClip){
+	if(sound){
+	AudioSource.PlayClipAtPoint(sound, transform.position);
+	}
+};
  function OnTriggerEnter (other : Collider){
  
  		
@@ -237,10 +331,11 @@ function Update (){
              if(other.gameObject.tag == "enemy"){
                  hit = true;
                  
-                 hitBlink = true; // makes this whole function unusable since invincible is no longer false
+                 hitBlink = true; // makes this whole function unusable since invincible is no longer false              
+	             playSound(hitSound);
                  doBlink();
                  speed = resetSpeed;
-                 animation["Run"].speed = 0.1;
+                 run.speed = 0.1;
                  yield WaitForSeconds (3); 
                  hitBlink = false; // makes this whole function reusable since invincible is false again
              }
@@ -249,6 +344,7 @@ function Update (){
          if (other.tag == "Berry_good") { 
 			score += 25; 
 			scoreText = "Score: " + score; 
+			playSound(berrySound);
 			Destroy(other.gameObject); 
 		} 
 
@@ -313,6 +409,12 @@ function Update (){
 		   
 		  }
 
+		if (speed > maxSpeed){
+
+		 	 speed -= maxSpeed*0.40;
+		 	 
+		}
+
      }
 
 
@@ -349,22 +451,52 @@ function isGrounded(){
 }
 
 
-function OnGUI() {
-    var minutes: int = Mathf.FloorToInt(timer / 60);
-    var seconds: int = Mathf.FloorToInt(timer - minutes * 60);
- 
-    var niceTime: String = String.Format("{0:0}:{1:00}", minutes, seconds);
- 
-    GUI.Label(new Rect(10,10,250,100), niceTime);
-    GUI.Label(new Rect(10,30,250,100), scoreText.ToString());
-    
 
 
-    // GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
-
-    if (displayFastTimeLevel){
-		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel +  bestTime.ToString() + " Seconds");
-
+function OnGUI() { 
+	var minutes: int = Mathf.FloorToInt(timer / 60); 
+	var seconds: int = Mathf.FloorToInt(timer - minutes * 60); 
+	var niceTime: String = String.Format("{0:0}:{1:00}", minutes, seconds); 
+	var countdown: String = String.Format("{0:0}", roundedPlayWaitTime); 
+	GUI.Label(new Rect(10,10,250,100), niceTime); GUI.Label(new Rect(10,30,250,100), scoreText.ToString()); 
+	
+	if (displayFastTimeLevel){ 
+		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel + bestTime.ToString() + " Seconds"); 
 	}
+	if(displayPlayWaitTime == true){
+	 	GUI.Label(new Rect(Screen.width/2-10,Screen.height/2-130,130,100), countdown); Time.timeScale = 1; 
+	}if(roundedPlayWaitTime == 0){ 
+		displayPlayWaitTime = false; 
+		if(displayRoundedPlayWaitTime){
+			GUI.Label(new Rect(Screen.width/2-9,Screen.height/2-130,130,100), launchMessage);
+		}
+	// 	Time.timeScale = 1; 
+	} 
 
- }
+	if(displayPauseMenu){
+		GUI.backgroundColor = Color.clear;
+		Time.timeScale = 0;
+		GUI.DrawTexture(windowRect, pauseMenuTexture, ScaleMode.ScaleToFit);
+		// GUI.DrawTexture(windowRect, resumeButton, ScaleMode.ScaleToFit);
+		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/3,200,100),resumeButton)){
+			menuChoice = "resumeGame";
+			Debug.Log(menuChoice);
+			pauseFunctions(menuChoice);
+		}
+		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/2,200,100),restartButton)){
+			menuChoice = "restartGame";
+			Debug.Log(menuChoice);
+			pauseFunctions(menuChoice);
+		}
+		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/1.5,200,100),mainMenuButton)){
+			menuChoice = "mainMenu";
+			Debug.Log(menuChoice);
+			pauseFunctions(menuChoice);
+		}
+		// GUI.DrawTexture(windowRect, restartButton, ScaleMode.ScaleToFit);
+		// GUI.DrawTexture(windowRect, mainMenuButton, ScaleMode.ScaleToFit);
+
+	}else{
+		Time.timeScale = 1;
+	}
+}

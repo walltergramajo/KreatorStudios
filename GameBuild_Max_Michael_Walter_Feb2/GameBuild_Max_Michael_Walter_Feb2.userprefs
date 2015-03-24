@@ -1,15 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Swoop.js">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\Desktop\FurryScamper\GameBuild_Max_Michael_Walter_March5\Assets\Scripts\MainMenu.js">
     <Files>
-      <File FileName="Assets\Scripts\playerController.js" Line="243" Column="28" />
-      <File FileName="Assets\Scripts\enemyPopUp.js" Line="20" Column="28" />
-      <File FileName="Assets\Scripts\PlayerRespawn.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Swoop.js" Line="32" Column="1" />
+      <File FileName="..\..\..\..\Desktop\FurryScamper\GameBuild_Max_Michael_Walter_March5\Assets\Scripts\Inventory.js" Line="40" Column="39" />
+      <File FileName="..\..\..\..\Desktop\FurryScamper\GameBuild_Max_Michael_Walter_March5\Assets\Scripts\playerController.js" Line="292" Column="24" />
+      <File FileName="..\..\..\..\Desktop\FurryScamper\GameBuild_Max_Michael_Walter_March5\Assets\Scripts\Items.js" Line="10" Column="29" />
+      <File FileName="..\..\..\..\Desktop\FurryScamper\GameBuild_Max_Michael_Walter_March5\Assets\Scripts\MainMenu.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="E:\Users\Max\Desktop\FurryScamper\GameBuild_Max_Michael_Walter_March5\Assets\Scripts\playerController.js" line="263" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
