@@ -5,6 +5,7 @@ var t : float;
 public var owl : Transform;
 var entered : boolean;
 
+
 function Start() {
 
 }
@@ -19,6 +20,8 @@ function OnTriggerEnter (other : Collider){
 function Update () {
 
 	if (entered && owl != null) {
+		//Animation
+		owl.animation.Play("swoop");
 		//Rotation
 		var q : Quaternion;
 		// Move owl on curve

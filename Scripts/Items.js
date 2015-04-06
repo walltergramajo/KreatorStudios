@@ -13,5 +13,20 @@
 enum PowerUp {
 	health,
 	sprint,
-	invulnerability
+	sprintBar,
+	invulnerability,
+	berry,
+	badBerry
+}
+
+
+function Items (tagName : String, Description : String, Variable : int, PowerUp : PowerUp, Icon : Texture2D, Amount : int, Instant :boolean, AudioPlay :AudioClip ){
+this.tagName = tagName;
+this.Description = Description;
+this.Variable = Variable;
+this.PowerUp = PowerUp;
+this.Icon = Icon;
+this.Amount = Amount;
+this.Instant = Instant;
+this.AudioPlay = AudioPlay;
 }

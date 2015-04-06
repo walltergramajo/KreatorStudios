@@ -2,15 +2,16 @@
 import System.Collections.Generic;
 
 //speed toggle
-@HideInInspector
-@System.NonSerialized
+
 public var maxSpeed : float = 17;
 @HideInInspector
 @System.NonSerialized
 public var resetSpeed : float = 2;
+
+public var speed : float = 0;
 @HideInInspector
 @System.NonSerialized
-public var speed : float = 0;
+public var speedPowerup : boolean = false;
 // jump toggles
 private var jumpHeight : float = 23;
 private var gravity : float = 70;
@@ -19,18 +20,17 @@ private var jumpTime : float;
 private var doubleJump : float;
 private var jumpMaxTime: float = 0.5;
 private var extraJump = 0.8;
-
+private var pauseCanvas : GameObject;
 
 public var displayMessageTime : float;
 private var velocity : Vector3;
 private var enableTimer = true;
-//Particle Emitter
+
 
 //sound
 
 
 public var hitSound :AudioClip;
-public var berrySound :AudioClip;
 public var jumpSound :AudioClip;
 
 // Point System
@@ -50,7 +50,8 @@ private var pauseMenuTexture : Texture2D;
 public var resumeButton : Texture2D;
 public var restartButton : Texture2D;
 public var mainMenuButton : Texture2D;
-private var displayPauseMenu : boolean = false;
+
+public var displayPauseMenu : boolean = false;
 private var menuChoice : String = "";
 private var windowPosition : Vector2 = Vector2(0,0);
 private var windowSize : Vector2 = Vector2(Screen.width, Screen.height);
@@ -78,18 +79,18 @@ var displayPlayWaitTime = true;
 private var hit : boolean;
 
 var invincible : boolean = false;
- //testing
+
 
 public var runner  : boolean;
 //dust
-
-
-
-
 var pe : ParticleSystem;
 
 
 public var hitBlink : boolean = false;
+
+//Speed bar
+public var script : GameObject;
+public var speedBar : float;
 
 
 
@@ -105,7 +106,8 @@ rigidbody.useGravity = false;
 
 function Start(){
 	
-	
+	script = gameObject.Find("Camera");
+
 	bestTime = PlayerPrefs.GetInt("bestTime", bestTime);
 
 	animation["Run"].speed = 0.1;
@@ -206,8 +208,8 @@ function OnCollisionStay(hit:Collision){
 			break;
 			
 		case "restartGame":
-			// Application.LoadLevel("mainmenu");
 			Debug.Log("LoadThisLevel");
+			Application.LoadLevel(Application.loadedLevel);
 			
 			break;
 
@@ -222,28 +224,42 @@ function OnCollisionStay(hit:Collision){
 }
 
 function Update (){
+	
 	pause();
+	colliding();
 
-
-	 if (speed < maxSpeed){
-	 	 speed += maxSpeed*0.01;
-	 	 if(run.speed < 1)
-	 	 run.speed += 1 * 0.001;
-	 }
 
 
 // runner code
+	if(Input.GetButton('Fast') && script.GetComponent(SpeedBar).Amount > 0){
+		
+		maxSpeed = 17*2;
+		script.GetComponent(SpeedBar).Amount -= 0.2;
 
-	if (speed < maxSpeed)
+	}else if(!speedPowerup){
+		maxSpeed = 17;
+		}
+	if (speed < maxSpeed - 0.2)
 	{
 	 	 speed += maxSpeed*0.01;
 		
+	}else if
+	 (speed > maxSpeed){
+
+		speed -= 0.5;
+		 	 
 	}
 	
-	if(animation["Run"].speed < 1)
+	if(animation["Run"].speed < 1 )
 		{
 		  run.speed += 1 * 0.01;
+		 // Debug.Log(speed/maxSpeed + " :MaxSpeed");
 		}
+		
+	
+
+	
+		
 
 
 	if(runner){
@@ -261,6 +277,7 @@ function Update (){
 
 	
 	//Jumping code
+
 
 	//If Character is on the ground reset the Jump Time
 	if(Input.GetButtonDown("Jump") && isGrounded()){
@@ -324,9 +341,19 @@ function playSound(sound :AudioClip){
 	AudioSource.PlayClipAtPoint(sound, transform.position);
 	}
 };
+
+
  function OnTriggerEnter (other : Collider){
- 
- 		
+	 	if(colliding() && other.gameObject.tag == "Collision"){
+	 	Debug.Log('hit');
+			   transform.rigidbody.velocity.y = 20;
+			   speed = -10;
+			   run.speed = -0.2;
+			   Debug.Log(run.speed);
+			 
+			  
+		}
+ 	
          if (!hitBlink){
              if(other.gameObject.tag == "enemy"){
                  hit = true;
@@ -341,12 +368,7 @@ function playSound(sound :AudioClip){
              }
          }
 
-         if (other.tag == "Berry_good") { 
-			score += 25; 
-			scoreText = "Score: " + score; 
-			playSound(berrySound);
-			Destroy(other.gameObject); 
-		} 
+    
 
         if(other.gameObject.tag == "endLevel"){
 			Debug.Log("End level");
@@ -397,9 +419,7 @@ function playSound(sound :AudioClip){
 				
 		}
 
-		
-		
-		
+			
 		if (other.gameObject.tag == 'jumpPad' ){
 		   // Apply the current movement to launch velocity
 		   //velocity = rigidbody.velocity;
@@ -408,12 +428,8 @@ function playSound(sound :AudioClip){
 		   Debug.Log("BOUNCE Jump");
 		   
 		  }
-
-		if (speed > maxSpeed){
-
-		 	 speed -= maxSpeed*0.40;
-		 	 
-		}
+		
+		
 
      }
 
@@ -450,15 +466,49 @@ function isGrounded(){
 	
 }
 
+function colliding(){
+	var top : Vector3 =  transform.position;
+	top.x += 0.4;
+	top.y += collider.bounds.size.y;
+	var middle : Vector3 = transform.position;
+	middle.x += 0.4;
+	middle.y += collider.bounds.size.y/2;
+	
+	var bottom : Vector3 = transform.position;
+	bottom.x += 0.4;
+	bottom.y += collider.bounds.size.y/4;
+	
+	var collision : float = collider.bounds.size.x/2.5;
+	Debug.DrawRay(middle, Vector3(collision,0 , 0), Color.red);
+	Debug.DrawRay(top, Vector3(collision, 0, 0), Color.red);
+	Debug.DrawRay(bottom, Vector3(collision, 0, 0), Color.red);
+	
+	if(
+		Physics.Raycast(top, Vector3.right, collider.bounds.size.x/2.5) ||
+		Physics.Raycast(middle, Vector3.right, collider.bounds.size.x/2.5) ||
+		Physics.Raycast(bottom, Vector3.right, collider.bounds.size.x/2.5)
+		){
+		return true;
+	}
+	
+	return false;
 
+}
 
 
 function OnGUI() { 
-	var minutes: int = Mathf.FloorToInt(timer / 60); 
-	var seconds: int = Mathf.FloorToInt(timer - minutes * 60); 
-	var niceTime: String = String.Format("{0:0}:{1:00}", minutes, seconds); 
+	var guiTimer : GameObject;
+	guiTimer = GameObject.Find("Timer");
+	var guiScore : GameObject;
+	guiScore = GameObject.Find("Score");
+	var minutes : int = Mathf.FloorToInt(timer / 60); 
+	var seconds : int = Mathf.FloorToInt(timer - minutes * 60); 
+	var niceTime : String = String.Format("{0:0}:{1:00}", minutes, seconds); 
 	var countdown: String = String.Format("{0:0}", roundedPlayWaitTime); 
-	GUI.Label(new Rect(10,10,250,100), niceTime); GUI.Label(new Rect(10,30,250,100), scoreText.ToString()); 
+	//GUI.Label(new Rect(10,10,250,100), niceTime); 
+	guiTimer.GetComponent.<UI.Text>().text = niceTime.ToString();
+	guiScore.GetComponent.<UI.Text>().text = scoreText.ToString();
+	// GUI.Label(new Rect(10,30,250,100), scoreText.ToString()); 
 	
 	if (displayFastTimeLevel){ 
 		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel + bestTime.ToString() + " Seconds"); 
@@ -472,31 +522,40 @@ function OnGUI() {
 		}
 	// 	Time.timeScale = 1; 
 	} 
-
 	if(displayPauseMenu){
-		GUI.backgroundColor = Color.clear;
+		
+		// GUI.backgroundColor = Color.clear;
 		Time.timeScale = 0;
-		GUI.DrawTexture(windowRect, pauseMenuTexture, ScaleMode.ScaleToFit);
-		// GUI.DrawTexture(windowRect, resumeButton, ScaleMode.ScaleToFit);
-		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/3,200,100),resumeButton)){
-			menuChoice = "resumeGame";
-			Debug.Log(menuChoice);
-			pauseFunctions(menuChoice);
-		}
-		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/2,200,100),restartButton)){
-			menuChoice = "restartGame";
-			Debug.Log(menuChoice);
-			pauseFunctions(menuChoice);
-		}
-		if (GUI.Button(Rect(Screen.width/2.8,Screen.height/1.5,200,100),mainMenuButton)){
-			menuChoice = "mainMenu";
-			Debug.Log(menuChoice);
-			pauseFunctions(menuChoice);
-		}
+		// GUI.DrawTexture(windowRect, pauseMenuTexture, ScaleMode.ScaleToFit);
+		// // GUI.DrawTexture(windowRect, resumeButton, ScaleMode.ScaleToFit);
+		// if (GUI.Button(Rect(Screen.width/2.8,Screen.height/3,200,100),resumeButton)){
+		// 	menuChoice = "resumeGame";
+		// 	Debug.Log(menuChoice);
+		// 	pauseFunctions(menuChoice);
+		// }
+		// if (GUI.Button(Rect(Screen.width/2.8,Screen.height/2,200,100),restartButton)){
+		// 	menuChoice = "restartGame";
+		// 	Debug.Log(menuChoice);
+		// 	pauseFunctions(menuChoice);
+		// }
+		// if (GUI.Button(Rect(Screen.width/2.8,Screen.height/1.5,200,100),mainMenuButton)){
+		// 	menuChoice = "mainMenu";
+		// 	Debug.Log(menuChoice);
+		// 	pauseFunctions(menuChoice);
+		// }
+		// if (resumeButton){
+		// 	menuChoice = "resumeGame";
+		// 	Debug.Log(menuChoice);
+		// 	pauseFunctions(menuChoice);
+		// }
+		pauseCanvas = GameObject.Find("PauseMenu");
+		pauseCanvas.GetComponent(CanvasGroup).alpha = 1;
+	
 		// GUI.DrawTexture(windowRect, restartButton, ScaleMode.ScaleToFit);
 		// GUI.DrawTexture(windowRect, mainMenuButton, ScaleMode.ScaleToFit);
-
 	}else{
 		Time.timeScale = 1;
+		pauseCanvas = GameObject.Find("PauseMenu");
+		pauseCanvas.GetComponent(CanvasGroup).alpha = 0;
 	}
 }
