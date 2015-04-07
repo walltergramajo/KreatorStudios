@@ -21,6 +21,8 @@ private var doubleJump : float;
 private var jumpMaxTime: float = 0.5;
 private var extraJump = 0.8;
 private var pauseCanvas : GameObject;
+private var gameOverCanvas : GameObject;
+private var leaderBoardCanvas : GameObject;
 
 public var displayMessageTime : float;
 private var velocity : Vector3;
@@ -39,6 +41,7 @@ public var jumpSound :AudioClip;
 public var maxTimerPoints : int = 1500;
 public var maxTimeAllowedInSeconds : int = 120;
 var finalPoints;
+var totalTimePoints;
 
 // Score System
 var score = 0; 
@@ -50,8 +53,10 @@ private var pauseMenuTexture : Texture2D;
 public var resumeButton : Texture2D;
 public var restartButton : Texture2D;
 public var mainMenuButton : Texture2D;
-
+public var pauseGame : boolean = false;
 public var displayPauseMenu : boolean = false;
+public var displayGameOver : boolean = false;
+public var displayLeaderBoards : boolean = false;
 private var menuChoice : String = "";
 private var windowPosition : Vector2 = Vector2(0,0);
 private var windowSize : Vector2 = Vector2(Screen.width, Screen.height);
@@ -101,11 +106,15 @@ var jump : AnimationState;
 
 rigidbody.useGravity = false;
 
+//HighScore Variables
+public var highScoreNameLocation : Vector2;
+var totalTimeScore : int;
 // invincibility 
 
 
 function Start(){
-	
+	SyncPlayerPrefs();
+	AddNewScore ();
 	script = gameObject.Find("Camera");
 
 	bestTime = PlayerPrefs.GetInt("bestTime", bestTime);
@@ -205,6 +214,7 @@ function OnCollisionStay(hit:Collision){
 	switch(menu) {
 		case "resumeGame":	
 			displayPauseMenu = false;
+			displayGameOver = false;
 			break;
 			
 		case "restartGame":
@@ -216,6 +226,17 @@ function OnCollisionStay(hit:Collision){
 		case "mainMenu":
 			Application.LoadLevel("Menu");
 			break;
+
+		case "backtoGameOver":
+			displayGameOver = true;
+			displayLeaderBoards = false;
+			break;
+
+		case "leaderboard":
+			displayLeaderBoards = true;
+			displayGameOver = false;
+			break;
+
 		default:
 			//do nothing, return
 			Debug.Log("nothing clicked");
@@ -224,6 +245,9 @@ function OnCollisionStay(hit:Collision){
 }
 
 function Update (){
+	
+	//SyncPlayerPrefs ();
+	//Debug.Log(PlayerPrefs.GetInt("Score0totalScore"));
 	
 	pause();
 	colliding();
@@ -332,8 +356,6 @@ function Update (){
 	// 	enableTimer = false;
 	// 	displayRoundedPlayWaitTime = false;
 	// }
-
-	
 	
 }
 function playSound(sound :AudioClip){
@@ -373,7 +395,8 @@ function playSound(sound :AudioClip){
         if(other.gameObject.tag == "endLevel"){
 			Debug.Log("End level");
 			completeTime = timer;
-
+			//positionx 2864.7
+			displayGameOver = true;
 				if(bestTime == 0){
 					bestTime = completeTime;
 					Debug.Log("Time added now because no time was added before");
@@ -415,8 +438,10 @@ function playSound(sound :AudioClip){
 				var finalPoints = totalTimePoints + score;
 				Debug.Log("Total Time Points:" + totalTimePoints);
 				Debug.Log("Total Time + Berries Points:" + finalPoints);
+				totalTimeScore = completeTime;
+				PlayerPrefs.SetInt("Score Complete Time", completeTime);
+				PlayerPrefs.SetInt("Score Final Points", finalPoints);
 
-				
 		}
 
 			
@@ -495,8 +520,126 @@ function colliding(){
 
 }
 
+class HighScore {
+	var name : String;
+	var berryAmount : int;
+	var time : int;
+	var totalScore : int;
+}
+
+
+
+var textGUIStyle : GUIStyle;
+var scoreGUIStyle : GUIStyle;
+var leaderScore = new HighScore[10];
+leaderScore[0].name ="potato1";
+leaderScore[1].name ="potato2";
+leaderScore[2].name ="potato3";
+leaderScore[3].name ="potato4";
+leaderScore[4].name ="potato5";
+leaderScore[5].name ="potato6";
+leaderScore[6].name ="potato7";
+leaderScore[7].name ="potato8";
+leaderScore[8].name ="potato9";
+leaderScore[9].name ="potato10";
+// leaderScore[0].time = PlayerPrefs.GetInt("Score Complete Time");
+// leaderScore[0].berryAmount = PlayerPrefs.GetInt("Score Total Berries");
+// leaderScore[0].totalScore = PlayerPrefs.GetInt("Score Final Points");
+
+
+
+
+var numberOfHighScores : int = 5;
+
+
+var newName : String = "Your Name";
+var newTotalPoints : int;
+
+function AddNewScore () {
+
+	var totBerry = PlayerPrefs.GetInt("Score Total Berries");
+	var completedTime = PlayerPrefs.GetInt("Score Complete Time");
+	var totPoints = PlayerPrefs.GetInt("Score Final Points");
+	
+
+	for(var i:int = 0; i < numberOfHighScores; i++){
+		//check for most important score I.E. Total points
+		if (totPoints > leaderScore[i].totalScore){
+			newTotalPoints = i;
+			break;
+		} else if(totPoints == leaderScore[i].totalScore && totBerry == leaderScore[i].berryAmount){
+			newTotalPoints = i;
+			break;
+		}
+
+	}
+	Debug.Log(newTotalPoints);
+
+	if(newTotalPoints < numberOfHighScores){
+
+		for(i = numberOfHighScores -1 ; i >=newTotalPoints; i--){
+				
+			if(i == newTotalPoints){
+				PlayerPrefs.SetString("Score" + i + "name", leaderScore[i].name);
+				leaderScore[i].name = leaderScore[i].name;
+				PlayerPrefs.SetInt("Score" + i + "berryAmount", totBerry);
+				leaderScore[i].berryAmount = totBerry;
+				PlayerPrefs.SetInt("Score" + i + "time", completedTime);
+				leaderScore[i].time = completedTime;
+				PlayerPrefs.SetInt("Score" + i + "totalScore", totPoints);
+				leaderScore[i].totalScore = totPoints;
+			}else{
+				PlayerPrefs.SetString("Score" + i + "name", leaderScore[i-1].name);
+				leaderScore[i].name = leaderScore[i-1].name;
+				PlayerPrefs.SetInt("Score" + i + "berryAmount", leaderScore[i-1].berryAmount);
+				leaderScore[i].berryAmount = leaderScore[i-1].berryAmount;
+				PlayerPrefs.SetInt("Score" + i + "time", leaderScore[i-1].time);
+				leaderScore[i].time = leaderScore[i-1].time;
+				PlayerPrefs.SetInt("Score" + i + "totalScore", leaderScore[i-1].totalScore);
+				leaderScore[i].totalScore = leaderScore[i-1].totalScore;
+			}
+
+		}
+	}
+
+}
+
+function SyncPlayerPrefs() {
+
+	for(var i:int = 0; i < numberOfHighScores; i++){
+
+		if(PlayerPrefs.HasKey("Score" + i + "name")){
+			leaderScore[i].name = PlayerPrefs.GetString("Score" + i + "name");
+		}else{
+			PlayerPrefs.SetString("Score" + i + "name", leaderScore[i].name);
+		}
+
+		if(PlayerPrefs.HasKey("Score" + i + "berryAmount")){
+			leaderScore[i].berryAmount = PlayerPrefs.GetInt("Score" + i + "berryAmount");
+		}else{
+			PlayerPrefs.SetInt("Score" + i + "berryAmount", leaderScore[i].berryAmount);
+		}
+
+		if(PlayerPrefs.HasKey("Score" + i + "time")){
+			leaderScore[i].time = PlayerPrefs.GetInt("Score" + i + "time");
+		}else{
+			PlayerPrefs.SetInt("Score" + i + "time", leaderScore[i].time);
+		}
+
+		if(PlayerPrefs.HasKey("Score" + i + "totalScore")){
+			leaderScore[i].totalScore = PlayerPrefs.GetInt("Score" + i + "totalScore");
+		}else{
+			PlayerPrefs.SetInt("Score" + i + "totalScore", leaderScore[i].totalScore);
+		}
+
+	}
+		
+
+}
 
 function OnGUI() { 
+	
+
 	var guiTimer : GameObject;
 	guiTimer = GameObject.Find("Timer");
 	var guiScore : GameObject;
@@ -511,7 +654,7 @@ function OnGUI() {
 	// GUI.Label(new Rect(10,30,250,100), scoreText.ToString()); 
 	
 	if (displayFastTimeLevel){ 
-		GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel + bestTime.ToString() + " Seconds"); 
+		//GUI.Label(Rect(Screen.width/2-80,Screen.height/2-130,300,100),FastTimeLevel + bestTime.ToString() + " Seconds"); 
 	}
 	if(displayPlayWaitTime == true){
 	 	GUI.Label(new Rect(Screen.width/2-10,Screen.height/2-130,130,100), countdown); Time.timeScale = 1; 
@@ -522,40 +665,63 @@ function OnGUI() {
 		}
 	// 	Time.timeScale = 1; 
 	} 
-	if(displayPauseMenu){
-		
-		// GUI.backgroundColor = Color.clear;
-		Time.timeScale = 0;
-		// GUI.DrawTexture(windowRect, pauseMenuTexture, ScaleMode.ScaleToFit);
-		// // GUI.DrawTexture(windowRect, resumeButton, ScaleMode.ScaleToFit);
-		// if (GUI.Button(Rect(Screen.width/2.8,Screen.height/3,200,100),resumeButton)){
-		// 	menuChoice = "resumeGame";
-		// 	Debug.Log(menuChoice);
-		// 	pauseFunctions(menuChoice);
-		// }
-		// if (GUI.Button(Rect(Screen.width/2.8,Screen.height/2,200,100),restartButton)){
-		// 	menuChoice = "restartGame";
-		// 	Debug.Log(menuChoice);
-		// 	pauseFunctions(menuChoice);
-		// }
-		// if (GUI.Button(Rect(Screen.width/2.8,Screen.height/1.5,200,100),mainMenuButton)){
-		// 	menuChoice = "mainMenu";
-		// 	Debug.Log(menuChoice);
-		// 	pauseFunctions(menuChoice);
-		// }
-		// if (resumeButton){
-		// 	menuChoice = "resumeGame";
-		// 	Debug.Log(menuChoice);
-		// 	pauseFunctions(menuChoice);
-		// }
+
+	if(displayPauseMenu == true){
+		Time.timeScale = 0;	
 		pauseCanvas = GameObject.Find("PauseMenu");
 		pauseCanvas.GetComponent(CanvasGroup).alpha = 1;
+		
 	
-		// GUI.DrawTexture(windowRect, restartButton, ScaleMode.ScaleToFit);
-		// GUI.DrawTexture(windowRect, mainMenuButton, ScaleMode.ScaleToFit);
-	}else{
-		Time.timeScale = 1;
+	}else{	
+		pauseGame = false;
 		pauseCanvas = GameObject.Find("PauseMenu");
 		pauseCanvas.GetComponent(CanvasGroup).alpha = 0;
+		
 	}
+	if(displayGameOver == true){
+			Time.timeScale = 0;	
+		gameOverCanvas = GameObject.Find("GameEnd");
+		gameOverCanvas.GetComponent(Canvas).enabled = true;
+		
+	
+	}if(displayGameOver == false){
+
+		gameOverCanvas = GameObject.Find("GameEnd");
+		gameOverCanvas.GetComponent(Canvas).enabled = false;
+		
+	}
+
+	if(displayLeaderBoards){
+
+		Time.timeScale = 0;
+		leaderBoardCanvas = GameObject.Find("LeaderboardCanvas");
+		leaderBoardCanvas.GetComponent(Canvas).enabled = true;
+
+		GUI.SetNextControlName("NameTextField");
+		newName = GUI.TextField(Rect(-100, -100 ,1,1), newName, 15);
+		GUI.FocusControl("NameTextField");
+
+		PlayerPrefs.SetString("Score" + newTotalPoints + "name", newName);
+		leaderScore[newTotalPoints].name = newName;
+
+
+		for(var i:int = 0; i < numberOfHighScores; i++){
+			GUI.Box(Rect(Screen.width /2 + -195.66, Screen.height /2 + -44.88 + i*30 ,120,30), leaderScore[i].name , textGUIStyle);
+			GUI.Box(Rect(Screen.width /2 + -50.66, Screen.height /2 + -44.88 + i*30 ,120,30), leaderScore[i].berryAmount.ToString() , scoreGUIStyle);
+			GUI.Box(Rect(Screen.width /2 + -0.66, Screen.height /2 + -44.88 + i*30 ,120,30), leaderScore[i].time.ToString() , scoreGUIStyle);
+			GUI.Box(Rect(Screen.width /2 + 50.66, Screen.height /2 + -44.88 + i*30 ,120,30), leaderScore[i].totalScore.ToString() , scoreGUIStyle);
+
+		}
+		
+	}else{
+		leaderBoardCanvas = GameObject.Find("LeaderboardCanvas");
+		leaderBoardCanvas.GetComponent(Canvas).enabled = false;
+
+	}
+
+	
+
+	
+
+	
 }

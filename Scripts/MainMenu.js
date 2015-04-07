@@ -34,6 +34,13 @@ function Update () {
 				//transform.position.z = target.transform.position.z - 30;
 				//transform.LookAt(target.transform);
 			}
+			if(hit.transform.name == "Leaderboards"){
+				target = GameObject.FindGameObjectWithTag("leaderboardsArea");
+				transform.position.x = target.transform.position.x = 2171;
+				transform.position.y = target.transform.position.y = 0;
+				//transform.position.z = target.transform.position.z - 30;
+				//transform.LookAt(target.transform);
+			}
 			if (hit.transform.name == "Fox"){
 				selectedCharacter01();
 				target = GameObject.FindGameObjectWithTag("LevelSelection");
